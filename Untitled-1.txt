@@ -1,0 +1,44 @@
+
+ <!--Add product via admin-->
+ <?php
+ $servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "icecream";
+$em=$_GET['uname'];
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+$query = "SELECT * FROM products"; // Replace 'products' with your actual table name
+$result = $conn->query($query);
+
+if ($result->num_rows > 0) {
+  while ($row= $result->fetch_assoc()) {
+    $price = $row['price'];
+    $image = $row['image'];
+    $name = $row['name'];
+    $pid=$row['id'];
+    
+    echo '<form action="" method="POST">';
+    echo '<div class="product-item d-flex flex-column align-items-center text-center bg-light rounded py-5 px-4 m-4" style="width:24%;">';
+    echo '<div class="product-item d-flex flex-column align-items-center text-center bg-light rounded py-4 px-4 m-4" style="width:24%;">';
+    echo '<div class="bg-primary mt-n5 py-3" style="width: 80px;">';
+    echo '<h4 class="font-weight-bold text-white mb-0">Rs.'.$price.'</h4>';
+    echo '</div>';
+    echo '<div class="position-relative bg-primary rounded-circle mt-n3 mb-4 p-3" style="width: 150px; height: 150px;">';
+    ?>
+
+    <img class="rounded-circle w-100 h-100" src="data:image/jpeg;base64,<?= base64_encode($image) ?>" alt="Card image" style="object-fit: cover;">
+    <?php
+   
+   echo '</div>';
+    echo '<h5 class="font-weight-bold mb-4">'.$name.'</h5>';
+    echo ' <input type="number" min="1" max="100" value="1" name="qnty" step="1">';
+    echo ' <button type="submit" name="btn" class="btn btn-sm btn-secondary m-2" style="height:30px";>Order</button>';
+    echo '</div>';
+    echo '</div>';
+    echo '</form>';
+    ?>
+     
